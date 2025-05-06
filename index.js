@@ -1,16 +1,17 @@
 const express = require('express');
-//const express = require('./routes');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const authRoutes = require('./routes/authRoutes');
+
+dotenv.config();
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
-//app.use('/', router);
+app.use('/api/auth', authRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(3000, () => {
-  console.log(`Server is running on http://localhost:3000`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
