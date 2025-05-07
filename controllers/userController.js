@@ -4,7 +4,9 @@ const prisma = new PrismaClient();
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      where: { status: 1 },
+    });
     res.json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -74,7 +76,10 @@ exports.updateUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    await prisma.user.delete({ where: { id: Number(req.params.id) } });
+    await prisma.user.update({
+      where: { id: Number(req.params.id) },
+      data: { status: 9 },
+    });
     res.json({ message: 'User deleted' });
   } catch (err) {
     res.status(500).json({ message: err.message });
