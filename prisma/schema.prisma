@@ -7,13 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model fasilitas {
+  id             Int          @id @default(autoincrement())
+  nama_fasilitas String       @db.VarChar(100)
+  lokasi         String       @db.VarChar(100)
+  pic            String       @db.VarChar(100)
+  foto_uri       String       @db.VarChar(100)
+  status         Int?         @default(1) @db.TinyInt
+  peminjaman     peminjaman[]
+}
+
+model peminjaman {
+  id            Int       @id @default(autoincrement())
+  id_user       Int
+  id_fasilitas  Int
+  tgl_pengajuan DateTime  @db.Date
+  tgl_pinjam    DateTime  @db.Date
+  jam_mulai     DateTime  @db.Time(0)
+  jam_selesai   DateTime  @db.Time(0)
+  proses        String    @db.VarChar(100)
+  notes         String?   @db.Text
+  kak_uri       String    @db.VarChar(100)
+  disposisi_uri String?   @db.VarChar(100)
+  status        Int?      @default(1) @db.TinyInt
+  fasilitas     fasilitas @relation(fields: [id_fasilitas], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "peminjaman_fasilitas_FK")
+  users         user      @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "peminjaman_users_FK")
+
+  @@index([id_fasilitas], map: "peminjaman_fasilitas_FK")
+  @@index([id_user], map: "peminjaman_users_FK")
+}
+
 model user {
-  id              Int    @id @default(autoincrement())
-  nim             String @unique
-  nama            String
-  email           String @unique
-  program_studi   String
-  fakultas        String
-  role            Int
-  password        String
+  id            Int          @id @default(autoincrement())
+  nim           String       @unique @db.VarChar(100)
+  nama          String       @db.VarChar(100)
+  email         String?      @db.VarChar(100)
+  program_studi String?      @db.VarChar(100)
+  fakultas      String?      @db.VarChar(100)
+  role          Int          @default(1) @db.TinyInt
+  password      String       @db.VarChar(100)
+  status        Int?         @default(1) @db.TinyInt
+  peminjaman    peminjaman[]
 }

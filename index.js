@@ -1,17 +1,22 @@
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
-const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const fasilitasRoutes = require('./routes/fasilitasRoutes');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/fasilitas', fasilitasRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log(`Server running on http://localhost:3000`);
 });
