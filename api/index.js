@@ -11,6 +11,11 @@ const peminjamanRoutes = require('../routes/peminjamanRoutes');
 const riwayatPeminjamanRoutes = require('../routes/riwayatPeminjamanRoutes');
 
 const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello from Express on Vercel!");
+});
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
