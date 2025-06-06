@@ -18,20 +18,20 @@ model fasilitas {
 }
 
 model peminjaman {
-  id            Int       @id @default(autoincrement())
+  id            Int               @id @default(autoincrement())
   id_user       Int
   id_fasilitas  Int
-  tgl_pengajuan DateTime  @db.Date
-  tgl_pinjam    DateTime  @db.Date
-  jam_mulai     DateTime  @db.Time(0)
-  jam_selesai   DateTime  @db.Time(0)
-  proses        String    @db.VarChar(100)
-  notes         String?   @db.Text
-  kak_uri       String    @db.VarChar(100)
-  disposisi_uri String?   @db.VarChar(100)
-  status        Int?      @default(1) @db.TinyInt
-  fasilitas     fasilitas @relation(fields: [id_fasilitas], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "peminjaman_fasilitas_FK")
-  users         user      @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "peminjaman_users_FK")
+  tgl_pengajuan DateTime          @db.Date
+  tgl_pinjam    DateTime          @db.Date
+  jam_mulai     DateTime          @db.Time(0)
+  jam_selesai   DateTime          @db.Time(0)
+  proses        peminjaman_proses @default(Diproses)
+  notes         String?           @db.Text
+  kak_uri       String            @db.VarChar(100)
+  disposisi_uri String?           @db.VarChar(100)
+  status        Int?              @default(1) @db.TinyInt
+  fasilitas     fasilitas         @relation(fields: [id_fasilitas], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "peminjaman_fasilitas_FK")
+  users         user              @relation(fields: [id_user], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "peminjaman_users_FK")
 
   @@index([id_fasilitas], map: "peminjaman_fasilitas_FK")
   @@index([id_user], map: "peminjaman_users_FK")
@@ -49,4 +49,11 @@ model user {
   status        Int?         @default(1) @db.TinyInt
   foto_profil   String?      @db.VarChar(100)
   peminjaman    peminjaman[]
+}
+
+enum peminjaman_proses {
+  Diproses
+  Diterima
+  Ditolak
+  Dibatalkan
 }

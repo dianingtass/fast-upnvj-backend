@@ -95,15 +95,26 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+const fs = require('fs');
+const path = require('path');
+
 exports.updateUserProfile = async (req, res) => {
   const userId = Number(req.params.id);
-
-  const password = req.body && req.body.password;
+  const password = req.body?.password;
   const foto_profil = req.file?.filename;
 
-  const bodyData = req.body || {};
-
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (foto_profil && existingUser.foto_profil) {
+      const oldPath = path.join(__dirname, '../uploads/foto_profil', existingUser.foto_profil);
+      if (fs.existsSync(oldPath)) {
+        fs.unlinkSync(oldPath);
+      }
+    }
+    
     const hashedPassword = password
       ? await bcrypt.hash(password, 10)
       : undefined;

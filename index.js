@@ -7,6 +7,7 @@ dotenv.config();
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const fasilitasRoutes = require('./routes/fasilitasRoutes');
+const peminjamanRoutes = require('./routes/peminjamanRoutes');
 
 const app = express();
 app.use(cors());
@@ -18,6 +19,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/fasilitas', fasilitasRoutes);
 app.use('/uploads', express.static('uploads'));
+app.use('/api/peminjaman', peminjamanRoutes);
 
 app.listen(3000, () => {
   console.log(`Server running on http://localhost:3000`);
