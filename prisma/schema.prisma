@@ -47,5 +47,6 @@ model user {
   role          Int          @default(1) @db.TinyInt
   password      String       @db.VarChar(100)
   status        Int?         @default(1) @db.TinyInt
+  foto_profil   String?      @db.VarChar(100)
   peminjaman    peminjaman[]
 }

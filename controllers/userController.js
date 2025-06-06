@@ -11,6 +11,27 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+exports.getUserProfile = async (req, res) => {
+  const userId = Number(req.params.id);
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        nim: true,
+        nama: true,
+        email: true,
+        fakultas: true,
+        program_studi: true,
+        foto_profil: true,
+      }
+    });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
 exports.getUserById = async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
@@ -66,6 +87,35 @@ exports.updateUser = async (req, res) => {
         role,
       },
     });
+    res.json(updatedUser);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+exports.updateUserProfile = async (req, res) => {
+  const userId = Number(req.params.id);
+  const { password, foto_profil } = req.body;
+
+  try {
+    const hashedPassword = password
+      ? await bcrypt.hash(password, 10)
+      : undefined;
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(hashedPassword && { password: hashedPassword }),
+        ...(foto_profil && { foto_profil }),
+      },
+      select: {
+        id: true,
+        nama: true,
+        email: true,
+        foto_profil: true,
+      },
+    });
+
     res.json(updatedUser);
   } catch (err) {
     res.status(500).json({ message: err.message });
