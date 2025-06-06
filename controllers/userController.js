@@ -97,7 +97,11 @@ exports.updateUser = async (req, res) => {
 
 exports.updateUserProfile = async (req, res) => {
   const userId = Number(req.params.id);
-  const { password, foto_profil } = req.body;
+
+  const password = req.body && req.body.password;
+  const foto_profil = req.file?.filename;
+
+  const bodyData = req.body || {};
 
   try {
     const hashedPassword = password
