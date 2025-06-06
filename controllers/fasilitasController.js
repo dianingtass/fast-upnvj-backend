@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const cloudinary = require('../utils/cloudinary');
 
 exports.getAllFasilitas = async (req, res) => {
   try {
@@ -32,12 +33,16 @@ exports.createFasilitas = async (req, res) => {
   }
 
   try {
+    const result = await cloudinary.uploader.upload(file.path, {
+      folder: 'fasilitas',
+    });
+
     const newFasilitas = await prisma.fasilitas.create({
       data: {
         nama_fasilitas,
         lokasi,
         pic,
-        foto_uri: file.originalname,
+        foto_uri: result.secure_url,
       },
     });
 
@@ -68,17 +73,10 @@ exports.updateFasilitas = async (req, res) => {
     };
 
     if (file) {
-      const oldFilePath = path.join(
-        __dirname,
-        '/fasilitas_foto',
-        existingFasilitas.foto_uri
-      );
-
-      if (existingFasilitas.foto_uri && fs.existsSync(oldFilePath)) {
-        fs.unlinkSync(oldFilePath);
-      }
-
-      updateData.foto_uri = file.originalname;
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: 'fasilitas',
+      });
+      updateData.foto_uri = result.secure_url;
     }
 
     const updated = await prisma.fasilitas.update({
@@ -96,7 +94,7 @@ exports.deleteFasilitas = async (req, res) => {
   try {
     const id = Number(req.params.id);
     await prisma.fasilitas.update({
-      where: { id: Number(req.params.id) },
+      where: { id },
       data: { status: 9 },
     });
     res.json({ message: 'Fasilitas deleted' });

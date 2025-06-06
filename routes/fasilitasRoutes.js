@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const fasilitasController = require('../controllers/fasilitasController');
-const upload = require('../middleware/fasilitas_foto');
+const multer = require('multer');
+const upload = multer({ dest: '/tmp' });
 
 router.get('/', fasilitasController.getAllFasilitas);
 router.get('/:id', fasilitasController.getFasilitasById);

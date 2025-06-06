@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const cloudinary = require('../utils/cloudinary');
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -101,20 +102,33 @@ const path = require('path');
 exports.updateUserProfile = async (req, res) => {
   const userId = Number(req.params.id);
   const password = req.body?.password;
-  const foto_profil = req.file?.filename;
+  const file = req.file;
 
   try {
     const existingUser = await prisma.user.findUnique({
       where: { id: userId },
     });
 
-    if (foto_profil && existingUser.foto_profil) {
+    let foto_profil_url = existingUser.foto_profil;
+
+    if (file) {
+      // Upload file baru ke Cloudinary
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: 'foto_profil',
+      });
+
+      // Optional: Kalau mau hapus foto lama dari Cloudinary juga, bisa implementasi di sini
+
+      foto_profil_url = result.secure_url;
+
+      // Kalau kamu masih pakai penyimpanan lokal dan ingin hapus file lama lokal, bisa cek dan hapus seperti ini:
+      // Tapi kalau sebelumnya kamu sudah migrasi ke cloudinary, biasanya file lokal sudah tidak ada.
       const oldPath = path.join(__dirname, '../uploads/foto_profil', existingUser.foto_profil);
-      if (fs.existsSync(oldPath)) {
+      if (existingUser.foto_profil && fs.existsSync(oldPath)) {
         fs.unlinkSync(oldPath);
       }
     }
-    
+
     const hashedPassword = password
       ? await bcrypt.hash(password, 10)
       : undefined;
@@ -123,7 +137,7 @@ exports.updateUserProfile = async (req, res) => {
       where: { id: userId },
       data: {
         ...(hashedPassword && { password: hashedPassword }),
-        ...(foto_profil && { foto_profil }),
+        ...(file && { foto_profil: foto_profil_url }),
       },
       select: {
         id: true,

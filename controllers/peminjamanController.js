@@ -1,7 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const fs = require('fs');
-const path = require('path');
+const cloudinary = require('../utils/cloudinary'); // pastikan sudah ada file lib/cloudinary.js
 
 const VALID_STATUSES = ['Diproses', 'Diterima', 'Ditolak', 'Dibatalkan'];
 
@@ -21,11 +20,11 @@ exports.updatePeminjaman = async (req, res) => {
     let disposisi_uri = existing.disposisi_uri;
 
     if (file) {
-      if (disposisi_uri) {
-        const oldPath = path.join(__dirname, '..', 'uploads', 'disposisi', disposisi_uri);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
-      }
-      disposisi_uri = file.filename;
+      // Upload file baru ke Cloudinary
+      const result = await cloudinary.uploader.upload(file.path, {
+        folder: 'disposisi',
+      });
+      disposisi_uri = result.secure_url;
     }
 
     const updated = await prisma.peminjaman.update({
@@ -33,8 +32,8 @@ exports.updatePeminjaman = async (req, res) => {
       data: {
         proses,
         notes,
-        disposisi_uri
-      }
+        disposisi_uri,
+      },
     });
 
     res.json(updated);

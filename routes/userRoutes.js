@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const uploadUserFoto = require('../middleware/foto_profil');
+const multer = require('multer');
+const upload = multer({ dest: '/tmp' });
 
 // GET & CREATE
 router.get('/', userController.getAllUsers);
@@ -14,6 +15,6 @@ router.delete('/:id', userController.deleteUser);
 
 // PROFILE
 router.get('/profile/:id', userController.getUserProfile);
-router.put('/profile/:id', uploadUserFoto.single('foto_profil'), userController.updateUserProfile);
+router.put('/profile/:id', upload.single('foto_profil'), userController.updateUserProfile);
 
 module.exports = router;
