@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const fasilitasController = require('../controllers/fasilitasController');
 const multer = require('multer');
-const upload = multer({ dest: '/tmp' });
+const upload = multer({ dest: '/tmp', limits: {fileSize: 50 * 1024 * 1024}});
 
 router.get('/', fasilitasController.getAllFasilitas);
 router.get('/:id', fasilitasController.getFasilitasById);

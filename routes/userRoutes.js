@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 const multer = require('multer');
-const upload = multer({ dest: '/tmp' });
+const upload = multer({ dest: '/tmp', limits: {fileSize: 50 * 1024 * 1024}});
 
 // GET & CREATE
 router.get('/', userController.getAllUsers);
