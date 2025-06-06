@@ -28,6 +28,4 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api/peminjaman', peminjamanRoutes);
 app.use('/api/riwayat-peminjaman', riwayatPeminjamanRoutes);
 
-app.listen(3000, () => {
-  console.log(`Server running on http://localhost:3000`);
-});
+module.exports = app;
