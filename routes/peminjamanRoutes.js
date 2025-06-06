@@ -4,6 +4,7 @@ const peminjamanController = require('../controllers/peminjamanController');
 const multer = require('multer');
 const upload = multer({ dest: '/tmp' });
 
+router.post('/', upload.single('kak_uri'), peminjamanController.createPeminjaman);
 router.put('/:id/status', upload.single('disposisi'), peminjamanController.updatePeminjaman);
 
 module.exports = router;
