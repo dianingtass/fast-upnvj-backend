@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('../docs/swagger');
 
 dotenv.config();
 const authRoutes = require('../routes/authRoutes');
@@ -27,5 +29,7 @@ app.use('/api/fasilitas', fasilitasRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use('/api/peminjaman', peminjamanRoutes);
 app.use('/api/riwayat-peminjaman', riwayatPeminjamanRoutes);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
