@@ -9,7 +9,6 @@ const userRoutes = require('../routes/userRoutes');
 const fasilitasRoutes = require('../routes/fasilitasRoutes');
 const peminjamanRoutes = require('../routes/peminjamanRoutes');
 const riwayatPeminjamanRoutes = require('../routes/riwayatPeminjamanRoutes');
-const adminDashboardRoutes = require('../routes/adminDashboardRoutes');
 
 const app = express();
 
@@ -28,6 +27,5 @@ app.use('/api/fasilitas', fasilitasRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use('/api/peminjaman', peminjamanRoutes);
 app.use('/api/riwayat-peminjaman', riwayatPeminjamanRoutes);
-app.use('/api/admin', adminDashboardRoutes);
 
 module.exports = app;
