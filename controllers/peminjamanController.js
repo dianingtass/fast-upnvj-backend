@@ -22,7 +22,7 @@ exports.getPeminjamanById = async (req, res) => {
     const peminjaman = await prisma.peminjaman.findUnique({
       where: { id },
       include: {
-        user: {
+        users: {
           select: {
             nama: true,
             email: true,
