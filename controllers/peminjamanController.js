@@ -24,15 +24,12 @@ exports.getPeminjamanById = async (req, res) => {
       include: {
         users: {
           select: {
-            nama: true,
-            email: true,
-            role: true
+            nama: true
           }
         },
         fasilitas: {
           select: {
-            nama: true,
-            deskripsi: true
+            nama_fasilitas: true,
           }
         }
       }
