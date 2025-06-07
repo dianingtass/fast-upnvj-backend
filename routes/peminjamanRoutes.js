@@ -158,49 +158,18 @@ module.exports = router;
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     Peminjaman:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *           example: 10
- *         id_user:
- *           type: integer
- *           example: 1
- *         id_fasilitas:
- *           type: integer
- *           example: 2
- *         tgl_pengajuan:
- *           type: string
- *           format: date
- *           example: "2025-06-10"
- *         tgl_pinjam:
- *           type: string
- *           format: date
- *           example: "2025-06-15"
- *         jam_mulai:
- *           type: string
- *           example: "08:00"
- *         jam_selesai:
- *           type: string
- *           example: "12:00"
- *         kak_uri:
- *           type: string
- *           example: "https://res.cloudinary.com/your-cloud/kak-file.pdf"
- *         disposisi_uri:
- *           type: string
- *           example: "https://res.cloudinary.com/your-cloud/disposisi.pdf"
- *         proses:
- *           type: string
- *           enum: [Diproses, Diterima, Ditolak, Dibatalkan]
- *           example: "Diproses"
- *         notes:
- *           type: string
- *           example: "Menunggu konfirmasi"
- *         status:
- *           type: integer
- *           example: 1
+ * tags:
+ *   name: Peminjaman
+ *   description: Endpoint untuk peminjaman fasilitas
  */
 
+/**
+ * @swagger
+ * /peminjaman:
+ *   get:
+ *     summary: Mendapatkan semua data peminjaman
+ *     tags: [Peminjaman]
+ *     responses:
+ *       200:
+ *         description: Daftar peminjaman
+ */

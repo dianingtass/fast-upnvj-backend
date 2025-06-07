@@ -183,3 +183,21 @@ router.get('/profile/:id', userController.getUserProfile);
 router.put('/profile/:id', upload.single('foto_profil'), userController.updateUserProfile);
 
 module.exports = router;
+
+/**
+ * @swagger
+ * tags:
+ *   name: User
+ *   description: Endpoint untuk user
+ */
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Mendapatkan semua user
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: Daftar user
+ */
