@@ -15,6 +15,39 @@ exports.getAllPeminjaman = async (req, res) => {
   }
 };
 
+exports.getPeminjamanById = async (req, res) => {
+  const id = Number(req.params.id);
+  
+  try {
+    const peminjaman = await prisma.peminjaman.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            nama: true,
+            email: true,
+            role: true
+          }
+        },
+        fasilitas: {
+          select: {
+            nama: true,
+            deskripsi: true
+          }
+        }
+      }
+    });
+
+    if (!peminjaman) {
+      return res.status(404).json({ message: 'Peminjaman tidak ditemukan' });
+    }
+
+    res.json(peminjaman);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 exports.createPeminjaman = async (req, res) => {
   const {
     tgl_pengajuan,
