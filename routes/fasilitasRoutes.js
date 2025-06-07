@@ -11,3 +11,21 @@ router.put('/:id', upload.single('foto_uri'), fasilitasController.updateFasilita
 router.delete('/:id', fasilitasController.deleteFasilitas);
 
 module.exports = router;
+
+/**
+ * @swagger
+ * tags:
+ *   name: Fasilitas
+ *   description: Endpoint untuk pengelolaan fasilitas
+ */
+
+/**
+ * @swagger
+ * /fasilitas:
+ *   get:
+ *     summary: Mendapatkan semua fasilitas
+ *     tags: [Fasilitas]
+ *     responses:
+ *       200:
+ *         description: Daftar fasilitas
+ */

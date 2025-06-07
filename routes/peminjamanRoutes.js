@@ -10,3 +10,21 @@ router.get('/:id', peminjamanController.getPeminjamanById);
 router.put('/:id/status', upload.single('disposisi'), peminjamanController.updatePeminjaman);
 
 module.exports = router;
+
+/**
+ * @swagger
+ * tags:
+ *   name: Peminjaman
+ *   description: Endpoint untuk peminjaman fasilitas
+ */
+
+/**
+ * @swagger
+ * /peminjaman:
+ *   get:
+ *     summary: Mendapatkan semua data peminjaman
+ *     tags: [Peminjaman]
+ *     responses:
+ *       200:
+ *         description: Daftar peminjaman
+ */
