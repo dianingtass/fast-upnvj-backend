@@ -23,8 +23,8 @@ model peminjaman {
   id_fasilitas  Int
   tgl_pengajuan DateTime          @db.Date
   tgl_pinjam    DateTime          @db.Date
-  jam_mulai     DateTime          @db.Time(0)
-  jam_selesai   DateTime          @db.Time(0)
+  jam_mulai     String            @db.Time(0)
+  jam_selesai   String            @db.Time(0)
   proses        peminjaman_proses @default(Diproses)
   notes         String?           @db.Text
   kak_uri       String            @db.VarChar(100)
