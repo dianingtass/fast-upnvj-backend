@@ -4,6 +4,17 @@ const cloudinary = require('../utils/cloudinary');
 
 const VALID_STATUSES = ['Diproses', 'Diterima', 'Ditolak', 'Dibatalkan'];
 
+exports.getAllPeminjaman = async (req, res) => {
+  try {
+    const peminjaman = await prisma.peminjaman.findMany({
+      where: { status: 1 },
+    });
+    res.json(peminjaman);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 exports.createPeminjaman = async (req, res) => {
   const {
     tgl_pengajuan,
