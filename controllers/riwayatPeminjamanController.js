@@ -33,7 +33,7 @@ exports.getRiwayatPeminjamanById = async (req, res) => {
       status: riwayat.status
     };
 
-    res.status(200).json(response); // <-- jangan lupa ini biar responsenya dikirim!
+    res.status(200).json(response);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -44,7 +44,7 @@ exports.getRiwayatPeminjaman = async (req, res) => {
     const riwayat = await prisma.peminjaman.findMany({
       where: { 
         id_user: Number(req.params.id),
-        status: 1 // Hanya ambil yang aktif
+        status: 1
       },
       include: {
         fasilitas: {

@@ -1,11 +1,20 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const cloudinary = require('../utils/cloudinary'); // pastikan sudah ada file lib/cloudinary.js
+const cloudinary = require('../utils/cloudinary');
 
 const VALID_STATUSES = ['Diproses', 'Diterima', 'Ditolak', 'Dibatalkan'];
 
 exports.createPeminjaman = async (req, res) => {
-  const { id_user, id_fasilitas, tgl_pengajuan, tgl_pinjam, jam_mulai, jam_selesai } = req.body;
+  const {
+    tgl_pengajuan,
+    tgl_pinjam,
+    jam_mulai,
+    jam_selesai
+  } = req.body;
+
+  const id_user = Number(req.body.id_user);
+  const id_fasilitas = Number(req.body.id_fasilitas);
+
   const file = req.file;
 
   if (!file) {
@@ -13,19 +22,17 @@ exports.createPeminjaman = async (req, res) => {
   }
 
   try {
-    // Upload file KAK ke Cloudinary
     const result = await cloudinary.uploader.upload(file.path, {
       folder: 'peminjaman_kak',
     });
-    let kak_uri= result.secure_url;
+    const kak_uri = result.secure_url;
 
-    // Buat data peminjaman baru
     const newPeminjaman = await prisma.peminjaman.create({
       data: {
         id_user,
         id_fasilitas,
-        tgl_pengajuan,
-        tgl_pinjam,
+        tgl_pengajuan: new Date(tgl_pengajuan),
+        tgl_pinjam: new Date(tgl_pinjam),
         jam_mulai,
         jam_selesai,
         kak_uri,
@@ -55,7 +62,6 @@ exports.updatePeminjaman = async (req, res) => {
     let disposisi_uri = existing.disposisi_uri;
 
     if (file) {
-      // Upload file baru ke Cloudinary
       const result = await cloudinary.uploader.upload(file.path, {
         folder: 'disposisi',
       });

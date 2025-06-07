@@ -112,17 +112,12 @@ exports.updateUserProfile = async (req, res) => {
     let foto_profil_url = existingUser.foto_profil;
 
     if (file) {
-      // Upload file baru ke Cloudinary
       const result = await cloudinary.uploader.upload(file.path, {
         folder: 'foto_profil',
       });
 
-      // Optional: Kalau mau hapus foto lama dari Cloudinary juga, bisa implementasi di sini
-
       foto_profil_url = result.secure_url;
 
-      // Kalau kamu masih pakai penyimpanan lokal dan ingin hapus file lama lokal, bisa cek dan hapus seperti ini:
-      // Tapi kalau sebelumnya kamu sudah migrasi ke cloudinary, biasanya file lokal sudah tidak ada.
       const oldPath = path.join(__dirname, '../uploads/foto_profil', existingUser.foto_profil);
       if (existingUser.foto_profil && fs.existsSync(oldPath)) {
         fs.unlinkSync(oldPath);
