@@ -4,18 +4,30 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'FAST UPNVJ API Documentation',
+      title: 'API Peminjaman Fasilitas Kampus',
       version: '1.0.0',
-      description: 'Dokumentasi API untuk Backend FAST UPNVJ Capstone Project.',
+      description: 'Dokumentasi API untuk sistem peminjaman fasilitas di kampus',
     },
     servers: [
-      {
-        url: 'http://localhost:3000',
-      },
+      { url: 'https://fast-upnvj-backend.vercel.app/' }
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        }
+      },
+      schemas: {
+        // ... (schemas tetap sama seperti yang Anda tulis)
+      }
+    },
+    security: [{
+      bearerAuth: []
+    }]
   },
-  apis: ['./routes/*.js'],
+  apis: ['./routes/*.js'], // Pastikan path ini benar relatif dari file ini
 };
 
-const swaggerSpec = swaggerJsdoc(options);
-module.exports = swaggerSpec;
+module.exports = swaggerJsdoc(options);
