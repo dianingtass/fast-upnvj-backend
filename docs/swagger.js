@@ -5,9 +5,9 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'API FAST UPNVJ',
+      title: 'API Documentation',
       version: '1.0.0',
-      description: 'Dokumentasi API untuk sistem peminjaman fasilitas di kampus',
+      description: 'FAST (Fasilitas Terintegrasi) - Sistem Peminjaman Fasilitas di Lingkungan Kampus',
     },
     servers: [
       { url: 'https://fast-upnvj-backend.vercel.app/' },

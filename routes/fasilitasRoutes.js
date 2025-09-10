@@ -89,7 +89,11 @@ router.get('/:id', fasilitasController.getFasilitasById);
  *       400:
  *         description: Foto wajib diupload
  */
-router.post('/', upload.single('foto_uri'), fasilitasController.createFasilitas);
+router.post(
+  '/',
+  upload.single('foto_uri'),
+  fasilitasController.createFasilitas
+);
 
 /**
  * @swagger
@@ -125,7 +129,11 @@ router.post('/', upload.single('foto_uri'), fasilitasController.createFasilitas)
  *       404:
  *         description: Fasilitas tidak ditemukan
  */
-router.put('/:id', upload.single('foto_uri'), fasilitasController.updateFasilitas);
+router.put(
+  '/:id',
+  upload.single('foto_uri'),
+  fasilitasController.updateFasilitas
+);
 
 /**
  * @swagger
@@ -148,30 +156,3 @@ router.put('/:id', upload.single('foto_uri'), fasilitasController.updateFasilita
 router.delete('/:id', fasilitasController.deleteFasilitas);
 
 module.exports = router;
-
-/**
- * @swagger
- * components:
- *   schemas:
- *     Fasilitas:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *           example: 1
- *         nama_fasilitas:
- *           type: string
- *           example: "Lab Komputer"
- *         lokasi:
- *           type: string
- *           example: "Gedung A, Lantai 2"
- *         pic:
- *           type: string
- *           example: "Dian Sastro"
- *         foto_uri:
- *           type: string
- *           example: "https://res.cloudinary.com/your-url.jpg"
- *         status:
- *           type: integer
- *           example: 1
- */

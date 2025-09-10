@@ -131,73 +131,8 @@ router.put('/:id', userController.updateUser);
  */
 router.delete('/:id', userController.deleteUser);
 
-/**
- * @swagger
- * /user/profile/{id}:
- *   get:
- *     summary: Ambil profil pengguna
- *     tags: [Users]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: Profil pengguna ditemukan
- */
 router.get('/profile/:id', userController.getUserProfile);
 
-/**
- * @swagger
- * /user/profile/{id}:
- *   put:
- *     summary: Update profil pengguna (termasuk foto profil)
- *     tags: [Users]
- *     consumes:
- *       - multipart/form-data
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: integer
- *         required: true
- *         description: ID pengguna
- *     requestBody:
- *       required: false
- *       content:
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             properties:
- *               password:
- *                 type: string
- *               foto_profil:
- *                 type: string
- *                 format: binary
- *     responses:
- *       200:
- *         description: Profil pengguna berhasil diupdate
- */
 router.put('/profile/:id', upload.single('foto_profil'), userController.updateUserProfile);
 
 module.exports = router;
-
-/**
- * @swagger
- * tags:
- *   name: User
- *   description: Endpoint untuk user
- */
-
-/**
- * @swagger
- * /users:
- *   get:
- *     summary: Mendapatkan semua user
- *     tags: [User]
- *     responses:
- *       200:
- *         description: Daftar user
- */

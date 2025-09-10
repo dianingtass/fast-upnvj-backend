@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('../docs/swagger'); // Import dari file terpisah
+const swaggerJsdoc = require('swagger-jsdoc');
 
 dotenv.config();
 
@@ -14,10 +15,14 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.get("/", (req, res) => {
   res.send("Back-End FAST UPNVJ\nCapstone Project\nStudy Club KSM Android 2025");
+});
+app.get("/swagger.json", (req, res) => {
+  res.json(swaggerSpec);
 });
 
 // API Routes
@@ -32,6 +37,7 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 module.exports = app;
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
